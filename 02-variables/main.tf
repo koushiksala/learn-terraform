@@ -22,3 +22,7 @@ output "fru" {
 output "first_fruit" {
   value = var.fruits[0]
 }
+
+output "price_fruit" {
+  value = "price of apple = ${var.fruit_price["apple"]}"
+}
