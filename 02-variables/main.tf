@@ -18,3 +18,7 @@ variable "fruit_price" {
 output "fru" {
   value = var.fruit
 }
+
+output "first_fruit" {
+  value = var.fruits[0]
+}
