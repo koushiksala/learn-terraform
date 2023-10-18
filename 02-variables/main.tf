@@ -15,6 +15,6 @@ variable "fruit_price" {
   }
 }
 
-output "fruit" {
+output "fru" {
   value = var.fruit
 }
