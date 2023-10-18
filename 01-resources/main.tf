@@ -7,3 +7,10 @@ resource "aws_instance" "web" {
   }
 }
 
+resource "aws_route53_record" "dev-ns" {
+  zone_id = "Z07563311KOKE3UKM58XL"
+  name    = "test.rdevopsb75.online"
+  type    = "NS"
+  ttl     = "30"
+  records = [aws_instance.web.private_ip]
+}
