@@ -9,8 +9,8 @@ resource "aws_instance" "frontend" {
 }
 
 resource "aws_route53_record" "frontend" {
-  zone_id = "Z07563311KOKE3UKM58XL"
-  name    = "frontend.rdevopsb75.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "frontend.${var.zone_id}"
   type    = "NS"
   ttl     = "30"
   records = [aws_instance.frontend.private_ip]
@@ -27,8 +27,8 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_route53_record" "backend" {
-  zone_id = "Z07563311KOKE3UKM58XL"
-  name    = "backend.rdevopsb75.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "backend.${var.zone_id}"
   type    = "NS"
   ttl     = "30"
   records = [aws_instance.backend.private_ip]
@@ -45,8 +45,8 @@ resource "aws_instance" "mysql" {
 }
 
 resource "aws_route53_record" "mysql" {
-  zone_id = "Z07563311KOKE3UKM58XL"
-  name    = "mysql.rdevopsb75.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "mysql.${var.zone_id}"
   type    = "NS"
   ttl     = "30"
   records = [aws_instance.mysql.private_ip]
