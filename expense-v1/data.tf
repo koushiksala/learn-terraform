@@ -8,3 +8,7 @@ data "aws_ami" "ami" {
 data "aws_security_group" "sg" {
   name = "allow-all"
 }
+
+data "aws_route53_zone" "selected" {
+  name         = "kdevopsb75.online"
+}
