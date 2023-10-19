@@ -6,6 +6,8 @@ resource "aws_instance" "frontend" {
   tags = {
     Name = "frontend"
   }
+
+
 }
 
 resource "aws_route53_record" "frontend" {
@@ -16,6 +18,19 @@ resource "aws_route53_record" "frontend" {
   records = [aws_instance.frontend.private_ip]
 }
 
+resource "null_resource" "frontend" {
+  depends_on = [aws_route53_record.frontend]
+  provisioner "local-exec" {
+    command = <<EOF
+  cd /home/centos/expense-ansible
+  git pull
+  sleep 60
+  ansible-playbook -i ${aws_instance.frontend.private_ip}, -e ansible_user=centos -e ansible_password=DevOps321 main.yml -e role_name=frontend
+  EOF
+  }
+
+}
+
 resource "aws_instance" "backend" {
   ami           = data.aws_ami.ami.image_id
   instance_type = "t3.micro"
@@ -24,6 +39,7 @@ resource "aws_instance" "backend" {
   tags = {
     Name = "backend"
   }
+
 }
 
 resource "aws_route53_record" "backend" {
@@ -34,6 +50,18 @@ resource "aws_route53_record" "backend" {
   records = [aws_instance.backend.private_ip]
 }
 
+resource "null_resource" "backend" {
+  depends_on = [aws_route53_record.backend]
+  provisioner "local-exec" {
+    command = <<EOF
+  cd /home/centos/expense-ansible
+  git pull
+  sleep 60
+  ansible-playbook -i ${aws_instance.backend.private_ip}, -e ansible_user=centos -e ansible_password=DevOps321 main.yml -e role_name=backend
+  EOF
+  }
+}
+
 resource "aws_instance" "mysql" {
   ami           = data.aws_ami.ami.image_id
   instance_type = "t3.micro"
@@ -42,6 +70,7 @@ resource "aws_instance" "mysql" {
   tags = {
     Name = "mysql"
   }
+
 }
 
 resource "aws_route53_record" "mysql" {
@@ -50,4 +79,16 @@ resource "aws_route53_record" "mysql" {
   type    = "NS"
   ttl     = "30"
   records = [aws_instance.mysql.private_ip]
+}
+
+resource "null_resource" "mysql" {
+  depends_on = [aws_route53_record.mysql]
+  provisioner "local-exec" {
+    command = <<EOF
+  cd /home/centos/expense-ansible
+  git pull
+  sleep 60
+  ansible-playbook -i ${aws_instance.mysql.private_ip}, -e ansible_user=centos -e ansible_password=DevOps321 main.yml -e role_name=mysql
+  EOF
+  }
 }
