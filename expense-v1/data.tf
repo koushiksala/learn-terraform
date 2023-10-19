@@ -5,6 +5,6 @@ data "aws_ami" "ami" {
 }
 
 
-data "aws_security_group" "selected" {
+data "aws_security_group" "sg" {
   name = "allow-all"
 }
