@@ -28,3 +28,7 @@ output "price_fruit" {
 }
 
 variable "url" {}
+
+output "url" {
+  value = var.url
+}
