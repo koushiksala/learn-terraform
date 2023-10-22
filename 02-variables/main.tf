@@ -26,3 +26,5 @@ output "first_fruit" {
 output "price_fruit" {
   value = "price of apple = ${var.fruit_price["apple"]}"
 }
+
+variable "url" {}
